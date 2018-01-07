@@ -34,7 +34,7 @@ before_build:
   - dotnet restore
 
 build:
-  project: src/*.sln
+  project: src\AspNetCore.Serilog.RequestLoggingMiddleware.sln
   verbosity: minimal               # MSBuild verbosity level
 
 # assembly_info:
