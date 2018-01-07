@@ -31,10 +31,10 @@ configuration: Release
 
 # scripts to run before build
 before_build:
+  - cd src
   - dotnet restore
 
 build:
-  project: src\AspNetCore.Serilog.RequestLoggingMiddleware.sln
   verbosity: minimal               # MSBuild verbosity level
 
 # assembly_info:
