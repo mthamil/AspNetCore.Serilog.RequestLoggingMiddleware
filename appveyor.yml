@@ -34,6 +34,7 @@ before_build:
   - dotnet restore
 
 build:
+  project: src/*.sln
   verbosity: minimal               # MSBuild verbosity level
 
 # assembly_info:
