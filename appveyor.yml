@@ -1,0 +1,74 @@
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Operating system (build VM template)
+os: Visual Studio 2017
+
+environment:  
+  major: 1
+  minor: 0
+  patch: 0
+
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf true
+  - ps: |
+      $isCI = $Env:APPVEYOR_REPO_TAG -eq $false
+      $isBranch = $isCI -and ($Env:APPVEYOR_REPO_BRANCH -ne 'master')
+      $branchSuffix = "$(if ($isBranch) { '-' + $Env:APPVEYOR_REPO_BRANCH } else { $null })"
+      $Env:VersionPrefix = "$($Env:major).$($Env:minor).$($Env:patch)"
+      $Env:VersionSuffix = "$(if ($isCI) { 'CI' + $Env:APPVEYOR_BUILD_NUMBER + $branchSuffix } else { $null })"
+      appveyor UpdateBuild -Version "$($Env:VersionPrefix)$(if ($isCI) { '-' } else { $null })$($Env:VersionSuffix)"
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration: Release
+
+# scripts to run before build
+before_build:
+  - dotnet restore
+
+build:
+  verbosity: minimal               # MSBuild verbosity level
+
+# assembly_info:
+#   patch: true
+#   file: '**\AssemblyInfo.*'
+#   assembly_version: $(VersionPrefix).0
+#   assembly_file_version: $(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)
+#   assembly_informational_version: '{version}'
+
+nuget:
+  project_feed: true
+  disable_publish_on_pr: true
+
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+artifacts:
+  - path: '**\$(APPVEYOR_PROJECT_NAME).$(APPVEYOR_BUILD_VERSION).nupkg'
+  - path: '**\$(APPVEYOR_PROJECT_NAME).$(APPVEYOR_BUILD_VERSION).symbols.nupkg'
+
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+deploy:
+  # Deploying to NuGet feed
+  - provider: NuGet
+    on:
+      appveyor_repo_tag: true
+    server: # nuget.org
+    api_key:
+      secure: MD0elo1aBPjhlWEc8wb7obFowwHimaZ+I1fEscOXpTckpHLZFmi4MOHrgyRteF/2
+    skip_symbols: false
+    symbol_server: # SymbolSource.org
+    artifact: /.*\.nupkg/

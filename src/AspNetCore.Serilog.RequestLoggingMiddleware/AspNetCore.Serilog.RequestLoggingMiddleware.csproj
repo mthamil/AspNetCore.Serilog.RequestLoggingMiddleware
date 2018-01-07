@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageProjectUrl>https://github.com/mthamil/AspNetCore.Serilog.RequestLoggingMiddleware</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mthamil/AspNetCore.Serilog.RequestLoggingMiddleware</RepositoryUrl>
+    <Product>AspNetCore.Serilog.RequestLoggingMiddleware</Product>
+    <Description>Middleware for ASP.NET Core that uses Serilog to log requests.</Description>
+    <Authors>Matt Hamilton</Authors>
+    <Copyright>Copyright 2018 Matt Hamilton, Nicholas Blumhardt</Copyright>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
