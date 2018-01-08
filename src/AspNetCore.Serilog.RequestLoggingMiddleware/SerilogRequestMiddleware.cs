@@ -42,7 +42,7 @@ namespace AspNetCore.Serilog.RequestLoggingMiddleware
                 var statusCode = httpContext.Response?.StatusCode;
                 var level = statusCode > 499 ? LogEventLevel.Error : LogEventLevel.Information;
 
-                var contextualLogger = _logger.ForContext("Request", _options.RequestSelector(httpContext.Request), destructureObjects: true);
+                var contextualLogger = _logger.ForContext("Request", _options.RequestProjection(httpContext.Request), destructureObjects: true);
                 contextualLogger = (level == LogEventLevel.Error ? PopulateLogContext(contextualLogger, httpContext) : contextualLogger);
 
                 contextualLogger.Write(level, MessageTemplate, httpContext.Request.Method, httpContext.Request.Path, statusCode, stopwatch.Elapsed.TotalMilliseconds);

@@ -11,6 +11,6 @@ namespace AspNetCore.Serilog.RequestLoggingMiddleware
         /// <summary>
         /// The function used to transform and select information to log from an <see cref="HttpRequest"/>.
         /// </summary>
-        public Func<HttpRequest, object> RequestSelector { get; set; } = req => new RequestInfo(req);
+        public Func<HttpRequest, object> RequestProjection { get; set; } = req => new RequestInfo(req);
     }
 }
