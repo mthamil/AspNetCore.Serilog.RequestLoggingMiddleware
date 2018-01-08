@@ -47,8 +47,8 @@ nuget:
 #---------------------------------#
 
 test_script:
-  - cd *.Tests
-  - dotnet xunit --configuration $(configuration) --no-build 
+  - ps: cd *.Tests
+  - ps: dotnet xunit --configuration $Env:CONFIGURATION --no-build 
 
 
 #---------------------------------#
